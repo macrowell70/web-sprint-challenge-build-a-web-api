@@ -36,7 +36,7 @@ router.put('/:id', (req, res) => {
     Projects.update(req.params.id, req.body)
     .then(project => {
         if (!name || !description || completed == null) {
-                res.status(400).json({ message: "problems" })
+                res.status(400).json({ message: "please provide name, description, and completed" })
                 return;
         }
         res.status(201).json(project)

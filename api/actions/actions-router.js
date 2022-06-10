@@ -34,16 +34,10 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const { name, description, completed } = req.body
     Actions.update(req.params.id, req.body)
-    .then(action => {
-        // if (!name || !description || completed == null) {
-        //         res.status(400).json({ message: "problems" })
-        //         return;
-        // }
-        res.status(201).json(action)
-    })
+    .then(action => {res.status(201).json(action)})
     .catch(err => {
         if (!name || !description || completed == null) {
-                res.status(400).json({ message: "problems" })
+                res.status(400).json({ message: "please provide name, description, and completed" })
                 return;
         }
         res.status(500).json(err.message)
