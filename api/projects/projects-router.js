@@ -7,7 +7,7 @@ const Projects = require('./projects-model');
 router.get('/', (req, res) => {
     Projects.get()
     .then(projectsList => res.status(200).json(projectsList))
-    .catch(err => res.status(500).json({ message: "There was a problem retrieving the data" }))
+    .catch(err => res.status(500).json(err.message))
 });
 
 router.get('/:id', (req, res) => {
@@ -21,16 +21,22 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     Projects.insert(req.body)
-    .then(post => {
-        res.status(201).json(post)
-    })
-    .catch( err => {
+    .then(project => {res.status(201).json(project)})
+    .catch(err => {
         if (!req.body.name || !req.body.description) {
             res.status(400).json({ message: "please provide name and description" })
             return;
         }
         res.status(500).json(err.message)
     })
+});
+
+router.put('/:id', (req, res) => {
+    Projects.update(req.params.id, req.body)
+    .then(project => {
+        res.status(201).json(project)
+    })
+    .catch(err => {res.status(500).json(err.message)})
 });
 
 router.delete('/:id', (req, res) => {
