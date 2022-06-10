@@ -19,6 +19,20 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(500).json(err.message))
 });
 
+router.post('/', (req, res) => {
+    Projects.insert(req.body)
+    .then(post => {
+        res.status(201).json(post)
+    })
+    .catch( err => {
+        if (!req.body.name || !req.body.description) {
+            res.status(400).json({ message: "please provide name and description" })
+            return;
+        }
+        res.status(500).json(err.message)
+    })
+});
+
 router.delete('/:id', (req, res) => {
     Projects.remove(req.params.id)
     .then(project => {
