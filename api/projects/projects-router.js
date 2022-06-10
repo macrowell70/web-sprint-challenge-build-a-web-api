@@ -32,12 +32,27 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
+    const { name, description, completed } = req.body
     Projects.update(req.params.id, req.body)
     .then(project => {
+        if (!name || !description || completed == null) {
+                res.status(400).json({ message: "problems" })
+                return;
+        }
         res.status(201).json(project)
     })
-    .catch(err => {res.status(500).json(err.message)})
+    .catch(err => {
+        if (!name || !description || completed == null) {
+                res.status(400).json({ message: "problems" })
+                return;
+        }
+        res.status(500).json(err.message)
+    })
 });
+
+// router.get('/:id/actions', (req, res) => {
+//     Projects.getProjectActions(req.params.id)
+// })
 
 router.delete('/:id', (req, res) => {
     Projects.remove(req.params.id)
