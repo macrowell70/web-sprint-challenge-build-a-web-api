@@ -50,9 +50,11 @@ router.put('/:id', (req, res) => {
     })
 });
 
-// router.get('/:id/actions', (req, res) => {
-//     Projects.getProjectActions(req.params.id)
-// })
+router.get('/:id/actions', (req, res) => {
+    Projects.getProjectActions(req.params.id)
+    .then(project => res.status(200).json(project))
+    .catch(err => res.status(500).json(err.message))
+});
 
 router.delete('/:id', (req, res) => {
     Projects.remove(req.params.id)
