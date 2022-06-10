@@ -20,7 +20,12 @@ router.get('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    res.json({ message: `DELETE endpoint in projects router is receiving requests for id: ${req.params.id}` })
+    Projects.remove(req.params.id)
+    .then(project => {
+        if (!project) {res.status(404).json({ message: `there are no projects with id: ${req.params.id}` })}
+        if (project) {res.end()}
+    })
+    .catch(err => res.status(500).json(err.message))
 });
 
 module.exports = router;
