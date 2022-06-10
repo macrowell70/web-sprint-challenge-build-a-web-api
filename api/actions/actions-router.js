@@ -35,10 +35,10 @@ router.put('/:id', (req, res) => {
     const { name, description, completed } = req.body
     Actions.update(req.params.id, req.body)
     .then(action => {
-        if (!name || !description || completed == null) {
-                res.status(400).json({ message: "problems" })
-                return;
-        }
+        // if (!name || !description || completed == null) {
+        //         res.status(400).json({ message: "problems" })
+        //         return;
+        // }
         res.status(201).json(action)
     })
     .catch(err => {
