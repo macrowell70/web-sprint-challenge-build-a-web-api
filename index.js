@@ -1,3 +1,11 @@
+const server = require('./api/server');
+
+const PORT = 9000;
+
+server.listen(PORT, () => {
+    console.log(`server is running on ${PORT}`)
+});
+
 /*
 play this: https://www.youtube.com/watch?v=d-diB65scQU
 
