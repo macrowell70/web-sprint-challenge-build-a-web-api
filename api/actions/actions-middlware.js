@@ -20,7 +20,7 @@ const validatePost = (req, res, next) => {
     })
     .catch(err => {
         if (!notes || !description || !project_id) {
-            res.status(400).json({ message: "please provide name and description" })
+            res.status(400).json({ message: "please provide notes, description, and project_id" })
             return;
         }
         res.status(500).json(err.message)
@@ -32,7 +32,7 @@ const validateUpdate = (req, res, next) => {
     Actions.update(req.params.id, req.body)
     .then(actionPost => {
         if (!description || completed == null) {
-            res.status(400).json({ message: "please provide completed status" })
+            res.status(400).json({ message: "please provide description and completed status" })
             return;
         }
         req.actionPost = actionPost
