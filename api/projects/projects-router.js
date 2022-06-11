@@ -1,6 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
+const { validateId } = require('./projects-middleware');
 
 const Projects = require('./projects-model');
 
@@ -10,13 +11,8 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json(err.message))
 });
 
-router.get('/:id', (req, res) => {
-    Projects.get(req.params.id)
-    .then(project => {
-        if (!project) {res.status(404).json({ message: `there are no projects with id: ${req.params.id}` })}
-        if (project) {res.status(200).json(project)}
-    })
-    .catch(err => res.status(500).json(err.message))
+router.get('/:id', validateId, (req, res) => {
+    res.status(200).json(req.project)
 });
 
 router.post('/', (req, res) => {
