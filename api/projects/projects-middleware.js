@@ -11,20 +11,36 @@ const validateId = (req, res, next) => {
     .catch(err => res.status(500).json(err.message))
 }
 
+const validatePost = (req, res, next) => {
+    const { name, description } = req.body
+    Projects.insert(req.body)
+    .then(projectPost => {
+        req.projectPost = projectPost
+        next()
+    })
+    .catch(err => {
+        if (!name || !description) {
+            res.status(400).json({ message: "please provide name and description" })
+            return;
+        }
+        res.status(500).json(err.message)
+    })
+}
+
 const validateUpdate = (req, res, next) => {
-    const { name, description, completed } = req.body
+    const { completed } = req.body
     Projects.update(req.params.id, req.body)
     .then(projectPost => {
-        if (!name || !description || completed == null) {
-            res.status(400).json({ message: "please provide name, description, and completed" })
+        if (completed == null) {
+            res.status(400).json({ message: "please provide completed status" })
             return;
         }
         req.projectPost = projectPost
         next()
     })
     .catch(err => {
-        if (!name || !description || completed == null) {
-                res.status(400).json({ message: "problems" })
+        if (completed == null) {
+                res.status(400).json({ message: "please provide completed status" })
                 return;
         }
         res.status(500).json(err.message)
@@ -34,4 +50,5 @@ const validateUpdate = (req, res, next) => {
 module.exports = {
     validateId,
     validateUpdate,
+    validatePost,
 }
