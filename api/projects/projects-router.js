@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id',validateId, (req, res) => {
     const { name, description, completed } = req.body
     Projects.update(req.params.id, req.body)
     .then(project => {
@@ -46,17 +46,16 @@ router.put('/:id', (req, res) => {
     })
 });
 
-router.get('/:id/actions', (req, res) => {
+router.get('/:id/actions',validateId, (req, res) => {
     Projects.getProjectActions(req.params.id)
     .then(project => res.status(200).json(project))
     .catch(err => res.status(500).json(err.message))
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',validateId, (req, res) => {
     Projects.remove(req.params.id)
     .then(project => {
-        if (!project) {res.status(404).json({ message: `there are no projects with id: ${req.params.id}` })}
-        if (project) {res.end()}
+        res.end();
     })
     .catch(err => res.status(500).json(err.message))
 });
